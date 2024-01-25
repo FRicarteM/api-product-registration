@@ -1,0 +1,64 @@
+#Server Port
+server:
+  port: 8080
+  
+#CORS Config  
+cors:
+  originPattenrs: http://localhost:3000,http://localhost:8080
+  
+#Spring Security Config 
+security:
+  jwt:
+    token:
+      secret-key: ${secret-key}
+      expire-length: ${expire-length}
+      
+#Spring Config        
+spring:
+
+#Conexao Flyway
+  flyway:
+    schemas: registration
+
+#Conexo com o DB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/product_registration?useTimezone=true&serverTimezone=UTC
+    username: ${username}
+    password: ${password}
+    
+#Mostrar dados SQL    
+  jpa:
+    #Nessa versão o spring pede o open-in-view seja configurado explicitamente
+    #para usar ou não o Open EntityManager in View.
+    #OBS: A utilização do "Open EntityManager in View" é uma prática comum em 
+    #aplicações web para evitar problemas LazyInitializationException. 
+    #Isso ocorre quando se tenta acessar propriedades lazily carregadas de uma
+    #entidade fora do contexto da transação, como em uma visualização JSP ou 
+    #Thymeleaf após a transação já ter sido encerrada. 
+    open-in-view: false
+    hibernate:
+        ddl-auto: none
+    properties:
+      hibernate:
+        format-sql: true
+        #Nessa versão o spring boot não precisa que o Dialect seja informado
+        #ele mesmo faz o gerenciamento.
+        #dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: true  
+      
+#OpenAPI        
+springdoc:
+  pathsToMatch: /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
+  default-consumes-media-type: application/json
+  auto-tag-classes: true
+  
+#Logging
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+        hibernate: INFO
