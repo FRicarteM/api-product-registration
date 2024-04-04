@@ -2,7 +2,7 @@ package com.fabtec.apiproductregistration.controllers;
 
 public class ProductController {
 
-	public void test3(){
+	public void lasttest(){
 		
 	}
 	
