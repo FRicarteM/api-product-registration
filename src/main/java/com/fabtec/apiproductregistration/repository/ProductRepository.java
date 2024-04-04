@@ -22,14 +22,30 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Page<Product> findByCategory(Integer category, Pageable pageable);
 	Page<Product> findByType(Integer type, Pageable pageable);
 	
+	//A QUERY esta usando a formato de pesquisa do JPQL
 	@Modifying
 	@Transactional
 	@Query("UPDATE Product p SET p.productName = :productName, p.category = :category, p.brand = :brand,"
 			+ " p.type = :type, p.cost = :cost, p.inventory = : inventory, p.updateDate = :updateDate"
 			+ " WHERE p.id = :id")
-	void update(@Param("namproductName") String productName, @Param("category") Integer category, 
-			@Param("brand") String brand, @Param("type") Integer type, @Param("cost") double cost,
+	void update(@Param("namproductName") String productName, @Param("category") ProductCategory category, 
+			@Param("brand") String brand, @Param("type") ProductType type, @Param("cost") double cost,
 			@Param("inventory") double inventory, @Param("updateDate") LocalDateTime updateDate, 
 			@Param("id") Long id);
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Product p SET p.inventory = : inventory WHERE p.id = :id")
+	void updateIventory(@Param("inventory") double inventory, @Param("id") Long id);
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Product p SET p.category = :category, WHERE p.id = :id")
+	void updateCategory(@Param("category") ProductCategory category, @Param("id") Long id);	
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Product p SET p.type = :type, WHERE p.id = :id")
+	void updateType(@Param("type") ProductType type, @Param("id") Long id);
 	
 }
